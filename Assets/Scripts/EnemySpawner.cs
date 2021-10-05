@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemySpawner : MonoBehaviour
+public class EnemySpawner : ObjectPool
 {
     [SerializeField] private int _spawnRepeatRate;
     [SerializeField] private GameObject _enemyPrefab;
@@ -10,12 +8,17 @@ public class EnemySpawner : MonoBehaviour
 
     private void Start()
     {
+        Initialize(_enemyPrefab);
         _spawnPoints = GetComponentsInChildren<Transform>();
         InvokeRepeating(nameof(SpawnEnemy), 2, _spawnRepeatRate);
     }
 
     private void SpawnEnemy()
     {
-        Instantiate(_enemyPrefab, _spawnPoints[Random.Range(0, _spawnPoints.Length)]);
+        if (TryGetObject(out GameObject enemy))
+        {
+            enemy.SetActive(true);
+            enemy.transform.position = _spawnPoints[Random.Range(0, _spawnPoints.Length)].position;
+        }
     }
 }

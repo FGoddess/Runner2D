@@ -12,6 +12,6 @@ public class Enemy : MonoBehaviour
             player.TakeDamage(_damage);
         }
 
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 }

@@ -19,6 +19,16 @@ public class ObjectPool : MonoBehaviour
             _pool.Add(obj);
         }
     }
+    protected void Initialize(GameObject[] prefabs)
+    {
+        for (int i = 0; i < _size; i++)
+        {
+            GameObject obj = Instantiate(prefabs[Random.Range(0, prefabs.Length)], _parent.transform);
+            obj.SetActive(false);
+
+            _pool.Add(obj);
+        }
+    }
 
     protected bool TryGetObject(out GameObject result)
     {
